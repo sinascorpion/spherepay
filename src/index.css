@@ -1,0 +1,56 @@
+@import "tailwindcss";
+
+@theme {
+  --font-sans: 'Plus Jakarta Sans', sans-serif;
+  --font-mono: 'JetBrains Mono', monospace;
+  --color-brand-orange: #ff6600;
+  --color-brand-glow: #ff771a;
+  --color-brand-light-bg: #fbf7f4;
+  --color-brand-light-card: #ffffff;
+  --color-brand-light-border: #fed7aa;
+  --color-brand-dark-bg: #080c14;
+  --color-brand-dark-card: #0f1726;
+  --color-brand-dark-border: #1e293b;
+}
+
+:root {
+  color-scheme: dark;
+}
+
+:root.light {
+  color-scheme: light;
+}
+
+body {
+  margin: 0;
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+/* Custom scrollbars */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: rgba(255, 102, 0, 0.3);
+  border-radius: 9999px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 102, 0, 0.6);
+}
+
+.glow-orange {
+  box-shadow: 0 0 25px -5px rgba(255, 102, 0, 0.4);
+}
+.glow-orange-sm {
+  box-shadow: 0 0 15px -3px rgba(255, 102, 0, 0.3);
+}
+.glow-text {
+  text-shadow: 0 0 12px rgba(255, 102, 0, 0.5);
+}
