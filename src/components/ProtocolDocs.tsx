@@ -32,7 +32,7 @@ export const ProtocolDocs: React.FC<ProtocolDocsProps> = ({ isLightMode }) => {
             Zero-Human Settlement Rail
           </div>
           <p className={`text-xs leading-relaxed ${isLightMode ? 'text-slate-600' : 'text-slate-400'}`}>
-            Autonomous agents agree on terms, submit signed payment intents over Unicity L3 Nostr relays, and exchange encrypted completion tokens via NIP-17 direct messaging without any human clicking "Confirm".
+            Autonomous agents agree on terms, submit signed payment intents over Unicity Nostr relays, and exchange encrypted completion tokens via NIP-17 direct messaging without any human clicking "Confirm".
           </p>
         </div>
 

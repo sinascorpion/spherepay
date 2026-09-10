@@ -28,7 +28,7 @@ export const AutonomousSettlement: React.FC<AutonomousSettlementProps> = ({
       id: '1',
       timestamp: '22:15:02',
       type: 'DISCOVERY',
-      message: 'Agent node active on Unicity L3 Nostr Relay. Subscribed to direct payment receipts & intents.'
+      message: 'Agent node active on Unicity Nostr Relay. Subscribed to direct payment receipts & intents.'
     },
     {
       id: '2',
@@ -102,7 +102,7 @@ export const AutonomousSettlement: React.FC<AutonomousSettlementProps> = ({
             Autonomous Provider Agent Node
           </h2>
           <p className={`text-sm ${isLightMode ? 'text-slate-600' : 'text-slate-400'}`}>
-            Running independently with no human in the loop. Listens to L3 transfer notifications, validates payment proofs, and dispatches outputs.
+            Running independently with no human in the loop. Listens to transfer notifications, validates payment proofs, and dispatches outputs.
           </p>
         </div>
 
@@ -151,7 +151,7 @@ export const AutonomousSettlement: React.FC<AutonomousSettlementProps> = ({
             <span>41 ms</span>
             <Activity className="w-4 h-4 text-emerald-400" />
           </div>
-          <span className="text-[11px] text-slate-500 mt-1 block">Nostr L3 direct transfer</span>
+          <span className="text-[11px] text-slate-500 mt-1 block">Nostr direct transfer</span>
         </div>
 
         <div className={`p-5 rounded-2xl border ${
@@ -179,7 +179,7 @@ export const AutonomousSettlement: React.FC<AutonomousSettlementProps> = ({
           </div>
           <div className="flex items-center gap-2 text-[11px] font-mono text-slate-400">
             <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
-            <span>L3 AGENT ACTIVE</span>
+            <span>AGENT ACTIVE</span>
           </div>
         </div>
 

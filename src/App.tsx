@@ -142,7 +142,7 @@ export function App() {
               </div>
               <div>
                 <span className="text-[11px] font-mono font-bold uppercase tracking-wider text-emerald-500">
-                  PAYMENT VERIFIED ON UNICITY L3
+                  PAYMENT VERIFIED ON UNICITY
                 </span>
                 <h3 className="text-xl font-bold">
                   {receiptModal.service.name}
@@ -174,7 +174,7 @@ export function App() {
             {/* Granted API Key / Endpoint */}
             <div className="space-y-2">
               <label className="text-xs font-mono font-bold text-slate-400">
-                DISPATCHED API ACCESS KEY (Delivered via Nostr L3)
+                DISPATCHED API ACCESS KEY (Delivered via Nostr)
               </label>
               <div className={`p-3 rounded-xl border font-mono text-xs select-all break-all ${
                 isLightMode ? 'bg-orange-50 border-orange-200 text-orange-900' : 'bg-orange-500/10 border-orange-500/30 text-orange-300'

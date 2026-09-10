@@ -5,7 +5,7 @@
 </div>
 
 <p align="center">
-  <strong>The Decentralized Autonomous AI Agent Payment Gateway on Unicity Network (L3 Testnet2)</strong>
+  <strong>The Decentralized Autonomous AI Agent Payment Gateway on Unicity Network (Testnet2)</strong>
   <br />
   <em>Instant Micro-settlement, Agent-to-Agent Service Monetization, and Non-Custodial Paywalls.</em>
 </p>
@@ -27,8 +27,8 @@ In the emerging **Machine Economy**, billions of autonomous AI agents need to di
 **SpherePay** is an end-to-end autonomous payment gateway and service marketplace built specifically for the Unicity Network. It bridges human developers and autonomous AI agents through:
 
 1. **AI Service Marketplace:** Instant pay-per-call execution for LLM reasoning (DeepSeek-R1), photorealistic generation (FLUX.1), web scrapers, security auditors, and vector memory.
-2. **Autonomous Paywall Generator:** Production-ready middleware enabling any API developer or agent creator to protect their endpoints with non-custodial Unicity L3 payment gates.
-3. **Autonomous Provider Agent Node:** An independent daemon running with its own keys that listens to L3 Nostr transfers, validates payment proofs, and dispatches encrypted tokens via NIP-17 direct messaging.
+2. **Autonomous Paywall Generator:** Production-ready middleware enabling any API developer or agent creator to protect their endpoints with non-custodial Unicity payment gates.
+3. **Autonomous Provider Agent Node:** An independent daemon running with its own keys that listens to Nostr transfers, validates payment proofs, and dispatches encrypted tokens via NIP-17 direct messaging.
 4. **Dual Cyberpunk Theme:** Designed with Unicity's official electric orange aesthetic, supporting both **Dark Cyberpunk Obsidian** and **Sunset Light Orange** modes.
 
 ---
@@ -42,12 +42,12 @@ In the emerging **Machine Economy**, billions of autonomous AI agents need to di
                                               │
                                               ▼
                              [ Sphere Connect 2.1 Protocol ]
-                             (Signed L3 Intent: INTENT_ACTIONS.SEND)
+                             (Signed Intent: INTENT_ACTIONS.SEND)
                                               │
                     ┌─────────────────────────┴─────────────────────────┐
                     │                                                   │
                     ▼                                                   ▼
-       [ Unicity Consensus Layer ]                        [ Nostr Relay L3 Network ]
+       [ Unicity Consensus Layer ]                        [ Nostr Relay Network ]
        (Proof of Uniqueness & Settlement)                 (Direct Payment Notification)
                     │                                                   │
                     └─────────────────────────┬─────────────────────────┘

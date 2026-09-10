@@ -476,7 +476,7 @@ export function useWalletConnect() {
   const getClient = () => clientRef.current;
 
   /**
-   * Pay for an AI Service / API Endpoint via Unicity L3 Payment Intent
+   * Pay for an AI Service / API Endpoint via Unicity Payment Intent
    */
   const payForService = async (amount: number, recipient: string = SPHEREPAY_AGENT_ADDRESS): Promise<boolean> => {
     if (!clientRef.current) return false;

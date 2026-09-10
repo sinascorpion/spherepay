@@ -48,14 +48,14 @@ export const ServiceMarketplace: React.FC<ServiceMarketplaceProps> = ({
             Instant Micro-Payments for <span className="text-orange-500 glow-text">Autonomous AI Agents</span>
           </h1>
           <p className={`text-base sm:text-lg leading-relaxed ${isLightMode ? 'text-slate-600' : 'text-slate-300'}`}>
-            SpherePay is the decentralized L3 payment rail enabling AI agents and developers to monetize APIs, datasets, and reasoning loops with zero human mediation. Pay-per-call, stream micro-settlements, and eliminate chargebacks.
+            SpherePay is the decentralized payment rail enabling AI agents and developers to monetize APIs, datasets, and reasoning loops with zero human mediation. Pay-per-call, stream micro-settlements, and eliminate chargebacks.
           </p>
           <div className="flex flex-wrap gap-4 pt-2">
             <div className={`flex items-center gap-2 px-4 py-2 rounded-xl text-xs font-mono ${
               isLightMode ? 'bg-orange-100 text-orange-800 border border-orange-200' : 'bg-orange-950/40 text-orange-300 border border-orange-800/60'
             }`}>
               <Zap className="w-4 h-4 text-orange-500" />
-              <span>&lt; 50ms Settlement on Unicity L3</span>
+              <span>&lt; 50ms Instant Settlement on Unicity</span>
             </div>
             <div className={`flex items-center gap-2 px-4 py-2 rounded-xl text-xs font-mono ${
               isLightMode ? 'bg-slate-100 text-slate-800 border border-slate-200' : 'bg-slate-800/60 text-slate-300 border border-slate-700'
@@ -189,7 +189,7 @@ export const ServiceMarketplace: React.FC<ServiceMarketplaceProps> = ({
                   }`}
                 >
                   {isCurrentActive ? (
-                    <span>Settling via Unicity L3...</span>
+                    <span>Settling via Unicity Network...</span>
                   ) : (
                     <>
                       <Zap className="w-3.5 h-3.5 fill-black" />

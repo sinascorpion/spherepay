@@ -2,7 +2,7 @@
  * SpherePay Autonomous Provider Daemon Node (Runnable script)
  *
  * This daemon is designed to run 24/7 on an agentic server or AstridOS.
- * It holds its own keys, listens to incoming payments on Unicity L3 testnet2,
+ * It holds its own keys, listens to incoming payments on Unicity testnet2,
  * and fulfills AI inference jobs with zero human intervention.
  */
 
@@ -35,7 +35,7 @@ export class SpherePayAgentDaemon {
   }
 
   private setupListeners() {
-    console.log('[SpherePay Daemon] Subscribed to L3 transfer notifications and NIP-17 direct messages.');
+    console.log('[SpherePay Daemon] Subscribed to transfer notifications and NIP-17 direct messages.');
   }
 
   public async handleIncomingPayment(request: AgentJobRequest): Promise<{ status: string; resultToken: string }> {

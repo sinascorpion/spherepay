@@ -50,7 +50,7 @@ export const Navbar: React.FC<NavbarProps> = ({
                   SPHERE<span className={isLightMode ? 'text-slate-900' : 'text-white'}>PAY</span>
                 </span>
                 <span className="text-[10px] uppercase font-bold tracking-widest px-2 py-0.5 rounded-full bg-orange-500/20 text-orange-500 border border-orange-500/40">
-                  Unicity L3
+                  Unicity Network
                 </span>
               </div>
               <p className={`text-xs ${isLightMode ? 'text-slate-500' : 'text-slate-400'} font-medium hidden sm:block`}>

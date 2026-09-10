@@ -28,7 +28,7 @@ export const FEATURED_SERVICES: AIService[] = [
     endpoint: 'https://api.spherepay.network/v1/reasoning',
     latencyMs: 340,
     uptimePercent: 99.98,
-    sampleInput: '{"prompt": "Analyze arbitrage opportunity between Unicity L3 Nostr Orderbook and L1 Fulcrum", "temperature": 0.2}',
+    sampleInput: '{"prompt": "Analyze arbitrage opportunity between Unicity Nostr Orderbook and L1 Fulcrum", "temperature": 0.2}',
     sampleOutput: '{"status": "success", "recommendation": "EXECUTE_SWAP", "confidence": 0.984, "expected_yield_pct": 3.42}',
     tags: ['CoT', 'Reasoning', 'Low-Latency']
   },

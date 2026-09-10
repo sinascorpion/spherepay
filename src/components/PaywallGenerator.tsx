@@ -36,7 +36,7 @@ const gate = new SpherePayGate({
 
 // Protect your agent endpoint with SpherePay
 app.post('/api/predict', gate.protect(), (req, res) => {
-  // Only executed after verified Unicity L3 payment receipt!
+  // Only executed after verified Unicity payment receipt!
   const buyer = req.spherePay.buyerPubkey;
   const paymentProof = req.spherePay.receiptHash;
   
