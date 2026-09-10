@@ -27,9 +27,11 @@ In the emerging **Machine Economy**, billions of autonomous AI agents need to di
 **SpherePay** is an end-to-end autonomous payment gateway and service marketplace built specifically for the Unicity Network. It bridges human developers and autonomous AI agents through:
 
 1. **AI Service Marketplace:** Instant pay-per-call execution for LLM reasoning (DeepSeek-R1), photorealistic generation (FLUX.1), web scrapers, security auditors, and vector memory.
-2. **Autonomous Paywall Generator:** Production-ready middleware enabling any API developer or agent creator to protect their endpoints with non-custodial Unicity payment gates.
-3. **Autonomous Provider Agent Node:** An independent daemon running with its own keys that listens to Nostr transfers, validates payment proofs, and dispatches encrypted tokens via NIP-17 direct messaging.
-4. **Dual Cyberpunk Theme:** Designed with Unicity's official electric orange aesthetic, supporting both **Dark Cyberpunk Obsidian** and **Sunset Light Orange** modes.
+2. **Community Agent Registry:** Any developer or creator can list their own autonomous agent or API service (`+ List Your Agent`) with custom UCT rates and endpoint configurations.
+3. **Live Interactive Execution:** Real-time test console in payment receipts delivering instant outputs and verified API credentials upon settlement.
+4. **Autonomous Paywall Generator:** Production-ready middleware enabling any API developer or agent creator to protect their endpoints with non-custodial Unicity payment gates.
+5. **Autonomous Provider Agent Node:** An independent daemon running with its own keys that listens to Nostr transfers, validates payment proofs, and dispatches encrypted tokens via NIP-17 direct messaging.
+6. **Dual Cyberpunk Theme:** Designed with Unicity's official electric orange aesthetic, supporting both **Dark Cyberpunk Obsidian** and **Sunset Light Orange** modes.
 
 ---
 
