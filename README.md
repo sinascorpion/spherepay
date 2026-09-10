@@ -107,15 +107,33 @@ Visit `http://localhost:5173` (or your configured port) and connect your Sphere 
 npm run build
 ```
 
----
+## 🔍 Live Backend & API Verification (For Judges & Developers)
 
-## 📦 Run Autonomous Agent Daemon
+The SpherePay backend is deployed and running live 24/7 on serverless infrastructure. Reviewers can verify the gateway endpoints directly:
 
-To launch the 24/7 background settlement daemon on an agent server or AstridOS:
+### 1. Check Autonomous Agent Health & Nostr Relay Connection
 
 ```bash
-npx tsx src/agent/daemon.ts
+curl -s https://unicity-spherepay.vercel.app/api/agent-status
 ```
+*Returns real-time node pubkey, direct address (`DIRECT://...`), latency, and connected Nostr relay state.*
+
+### 2. Test Non-Custodial Paywall Gate Protection (HTTP 402)
+
+Verify that access without a valid Unicity payment proof is rejected:
+
+```bash
+curl -i -X POST https://unicity-spherepay.vercel.app/api/predict
+```
+*Returns HTTP `402 Payment Required` with payment recipient address and required UCT price.*
+
+### 3. Test Authorized Execution with Payment Receipt
+
+```bash
+curl -s -X POST https://unicity-spherepay.vercel.app/api/predict \
+  -H "Authorization: Bearer 0x_sample_unicity_settlement_proof"
+```
+*Returns HTTP `200 OK` with verified settlement details and delivered agent reasoning payload.*
 
 ---
 
