@@ -6,7 +6,7 @@ import { PaywallGenerator } from './components/PaywallGenerator';
 import { AutonomousSettlement } from './components/AutonomousSettlement';
 import { ProtocolDocs } from './components/ProtocolDocs';
 import type { AIService } from './utils/servicesData';
-import { CheckCircle2, ShieldAlert, Sparkles, ExternalLink, Zap } from 'lucide-react';
+import { CheckCircle2, ShieldAlert, Sparkles, ExternalLink, Zap, Terminal } from 'lucide-react';
 
 export function App() {
   const [isLightMode, setIsLightMode] = useState<boolean>(false);
@@ -106,6 +106,8 @@ export function App() {
             onPayForService={handlePayForService}
             isProcessing={isProcessing}
             activeServiceId={activeServiceId}
+            userNametag={wallet.identity?.nametag}
+            userAddress={wallet.identity?.chainPubkey}
           />
         )}
 
@@ -183,9 +185,26 @@ export function App() {
               </div>
             </div>
 
+            {/* Live Interactive Playground / Execution */}
+            <div className="space-y-2">
+              <label className="text-xs font-mono font-bold text-orange-500 flex items-center gap-1.5 uppercase">
+                <Terminal className="w-3.5 h-3.5" />
+                Live Agent Execution Output (Sample Test)
+              </label>
+              <div className="p-3.5 rounded-xl bg-black border border-slate-800 text-[11px] font-mono text-emerald-400 space-y-2 max-h-48 overflow-y-auto">
+                <div className="text-slate-500 flex items-center justify-between border-b border-slate-800 pb-1">
+                  <span>POST {receiptModal.service.endpoint}</span>
+                  <span className="text-emerald-500 font-bold">200 OK</span>
+                </div>
+                <pre className="text-slate-200 whitespace-pre-wrap leading-relaxed">
+                  <code>{receiptModal.service.sampleOutput}</code>
+                </pre>
+              </div>
+            </div>
+
             <div className="space-y-2">
               <label className="text-xs font-mono font-bold text-slate-400">
-                SAMPLE CURL REQUEST
+                CURL INTEGRATION SNIPPET
               </label>
               <pre className="p-3 rounded-xl bg-black border border-slate-800 text-[11px] font-mono text-orange-300 overflow-x-auto">
                 <code>{`curl -X POST ${receiptModal.service.endpoint} \\
@@ -199,7 +218,7 @@ export function App() {
               onClick={() => setReceiptModal(null)}
               className="w-full py-3 rounded-xl font-mono font-bold text-xs uppercase bg-orange-500 hover:bg-orange-400 text-black shadow-lg shadow-orange-500/20 transition-all"
             >
-              Close &amp; Test API
+              Done &amp; Return to Marketplace
             </button>
           </div>
         </div>
