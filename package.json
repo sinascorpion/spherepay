@@ -11,14 +11,17 @@
   },
   "dependencies": {
     "@tailwindcss/vite": "^4.3.2",
+    "@types/ws": "^8.18.1",
     "@unicitylabs/sphere-sdk": "^0.16.0",
     "@unicitylabs/sphere-ui": "^0.1.44",
+    "dotenv": "^17.4.2",
     "jimp": "^1.6.1",
     "lucide-react": "^1.22.0",
     "react": "^19.2.7",
     "react-dom": "^19.2.7",
     "sharp": "^0.35.2",
-    "tailwindcss": "^4.3.2"
+    "tailwindcss": "^4.3.2",
+    "ws": "^8.21.3"
   },
   "devDependencies": {
     "@types/node": "^24.13.2",

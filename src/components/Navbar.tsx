@@ -35,26 +35,26 @@ export const Navbar: React.FC<NavbarProps> = ({
         ? 'bg-[#fbf7f4]/90 border-orange-200' 
         : 'bg-[#080c14]/90 border-slate-800'
     }`}>
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex items-center justify-between h-20">
+      <div className="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8">
+        <div className="flex items-center justify-between h-16 sm:h-20">
           
           {/* Logo & Title */}
-          <div className="flex items-center gap-3 cursor-pointer" onClick={() => setActiveTab('services')}>
-            <div className="relative flex items-center justify-center w-12 h-12 rounded-xl bg-orange-500/10 border border-orange-500/30 overflow-hidden group">
-              <img src="/logo.png" alt="SpherePay Logo" className="w-10 h-10 object-contain transition-transform group-hover:scale-110" />
+          <div className="flex items-center gap-2.5 sm:gap-3 cursor-pointer shrink-0" onClick={() => setActiveTab('services')}>
+            <div className="relative flex items-center justify-center w-10 h-10 sm:w-12 sm:h-12 rounded-xl bg-orange-500/10 border border-orange-500/30 overflow-hidden group">
+              <img src="/logo.png" alt="SpherePay Logo" className="w-8 h-8 sm:w-10 sm:h-10 object-contain transition-transform group-hover:scale-110" />
               <div className="absolute inset-0 bg-orange-500/10 blur-sm -z-10 group-hover:opacity-100 opacity-0 transition-opacity" />
             </div>
             <div>
-              <div className="flex items-center gap-2">
-                <span className="text-xl font-extrabold tracking-tight font-mono text-orange-500">
+              <div className="flex items-center gap-1.5 sm:gap-2">
+                <span className="text-lg sm:text-xl font-extrabold tracking-tight font-mono text-orange-500">
                   SPHERE<span className={isLightMode ? 'text-slate-900' : 'text-white'}>PAY</span>
                 </span>
-                <span className="text-[10px] uppercase font-bold tracking-widest px-2 py-0.5 rounded-full bg-orange-500/20 text-orange-500 border border-orange-500/40">
-                  Unicity Network
+                <span className="text-[9px] sm:text-[10px] uppercase font-bold tracking-wider sm:tracking-widest px-1.5 sm:px-2 py-0.5 rounded-full bg-orange-500/20 text-orange-500 border border-orange-500/40">
+                  Unicity
                 </span>
               </div>
-              <p className={`text-xs ${isLightMode ? 'text-slate-500' : 'text-slate-400'} font-medium hidden sm:block`}>
-                Autonomous AI Agent Payment Gateway
+              <p className={`text-[10px] sm:text-xs ${isLightMode ? 'text-slate-500' : 'text-slate-400'} font-medium hidden xs:block sm:block`}>
+                Autonomous AI Payment Gateway
               </p>
             </div>
           </div>
@@ -121,37 +121,38 @@ export const Navbar: React.FC<NavbarProps> = ({
 
             {/* Wallet Button */}
             {isConnected ? (
-              <div className="flex items-center gap-2">
-                <div className={`flex items-center gap-2 px-3 py-2 rounded-xl border font-mono text-xs ${
+              <div className="flex items-center gap-1.5 sm:gap-2">
+                <div className={`flex items-center gap-1.5 px-2.5 sm:px-3 py-1.5 sm:py-2 rounded-xl border font-mono text-[11px] sm:text-xs ${
                   isLightMode 
                     ? 'bg-white border-orange-200 text-slate-800 shadow-sm' 
                     : 'bg-[#0f1726] border-slate-800 text-orange-400'
                 }`}>
-                  <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
-                  <span className="font-bold">
+                  <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse shrink-0" />
+                  <span className="font-bold truncate max-w-[90px] sm:max-w-none">
                     {identity?.nametag || shortAddress}
                   </span>
                 </div>
                 <button
                   onClick={onDisconnect}
                   title="Disconnect Wallet"
-                  className={`p-2.5 rounded-xl border transition-colors ${
+                  className={`p-2 sm:p-2.5 rounded-xl border transition-colors ${
                     isLightMode 
                       ? 'border-red-200 hover:bg-red-50 text-red-500' 
                       : 'border-red-950/50 hover:bg-red-950/30 text-red-400'
                   }`}
                 >
-                  <LogOut className="w-4 h-4" />
+                  <LogOut className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
                 </button>
               </div>
             ) : (
               <button
                 onClick={onConnect}
                 disabled={isConnecting}
-                className="flex items-center gap-2 px-4 py-2.5 rounded-xl bg-orange-500 hover:bg-orange-400 text-black font-bold text-sm uppercase transition-all shadow-lg shadow-orange-500/30 hover:scale-[1.02] active:scale-[0.98] disabled:opacity-50"
+                className="flex items-center gap-1.5 sm:gap-2 px-3 sm:px-4 py-2 sm:py-2.5 rounded-xl bg-orange-500 hover:bg-orange-400 text-black font-bold text-xs sm:text-sm uppercase transition-all shadow-md shadow-orange-500/20 active:scale-[0.98] disabled:opacity-50 shrink-0"
               >
-                <Wallet className="w-4 h-4" />
-                <span>{isConnecting ? 'Connecting...' : 'Connect Wallet'}</span>
+                <Wallet className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
+                <span className="hidden xs:inline">{isConnecting ? 'Connecting...' : 'Connect'}</span>
+                <span className="xs:hidden">{isConnecting ? '...' : 'Connect'}</span>
               </button>
             )}
 
@@ -160,35 +161,43 @@ export const Navbar: React.FC<NavbarProps> = ({
         </div>
 
         {/* Mobile Navigation */}
-        <div className="flex md:hidden overflow-x-auto gap-2 py-2 border-t border-slate-800/20 scrollbar-none">
+        <div className="flex md:hidden overflow-x-auto gap-2 py-2 border-t border-slate-800/10 dark:border-slate-800/40 scrollbar-none">
           <button
             onClick={() => setActiveTab('services')}
-            className={`px-3 py-1.5 rounded-lg text-xs font-semibold whitespace-nowrap ${
-              activeTab === 'services' ? 'bg-orange-500 text-black' : 'text-slate-400'
+            className={`px-3 py-1.5 rounded-lg text-xs font-semibold whitespace-nowrap transition-colors ${
+              activeTab === 'services' 
+                ? 'bg-orange-500 text-black shadow-sm' 
+                : isLightMode ? 'text-slate-700 hover:text-orange-600' : 'text-slate-300 hover:text-orange-400'
             }`}
           >
             AI Services
           </button>
           <button
             onClick={() => setActiveTab('paywall')}
-            className={`px-3 py-1.5 rounded-lg text-xs font-semibold whitespace-nowrap ${
-              activeTab === 'paywall' ? 'bg-orange-500 text-black' : 'text-slate-400'
+            className={`px-3 py-1.5 rounded-lg text-xs font-semibold whitespace-nowrap transition-colors ${
+              activeTab === 'paywall' 
+                ? 'bg-orange-500 text-black shadow-sm' 
+                : isLightMode ? 'text-slate-700 hover:text-orange-600' : 'text-slate-300 hover:text-orange-400'
             }`}
           >
             Paywall Generator
           </button>
           <button
             onClick={() => setActiveTab('settlement')}
-            className={`px-3 py-1.5 rounded-lg text-xs font-semibold whitespace-nowrap ${
-              activeTab === 'settlement' ? 'bg-orange-500 text-black' : 'text-slate-400'
+            className={`px-3 py-1.5 rounded-lg text-xs font-semibold whitespace-nowrap transition-colors ${
+              activeTab === 'settlement' 
+                ? 'bg-orange-500 text-black shadow-sm' 
+                : isLightMode ? 'text-slate-700 hover:text-orange-600' : 'text-slate-300 hover:text-orange-400'
             }`}
           >
             Agent Loop
           </button>
           <button
             onClick={() => setActiveTab('docs')}
-            className={`px-3 py-1.5 rounded-lg text-xs font-semibold whitespace-nowrap ${
-              activeTab === 'docs' ? 'bg-orange-500 text-black' : 'text-slate-400'
+            className={`px-3 py-1.5 rounded-lg text-xs font-semibold whitespace-nowrap transition-colors ${
+              activeTab === 'docs' 
+                ? 'bg-orange-500 text-black shadow-sm' 
+                : isLightMode ? 'text-slate-700 hover:text-orange-600' : 'text-slate-300 hover:text-orange-400'
             }`}
           >
             Protocol Specs

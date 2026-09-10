@@ -106,10 +106,10 @@ export const AutonomousSettlement: React.FC<AutonomousSettlementProps> = ({
           </p>
         </div>
 
-        <div className="flex items-center gap-3">
+        <div className="flex flex-wrap items-center gap-2 sm:gap-3 w-full sm:w-auto">
           <button
             onClick={() => setIsRunning(!isRunning)}
-            className={`flex items-center gap-2 px-4 py-2 rounded-xl text-xs font-mono font-bold border transition-all ${
+            className={`flex items-center justify-center gap-2 px-3 sm:px-4 py-2 rounded-xl text-xs font-mono font-bold border transition-all flex-1 sm:flex-initial ${
               isRunning
                 ? 'bg-amber-500/10 text-amber-500 border-amber-500/30 hover:bg-amber-500/20'
                 : 'bg-emerald-500/10 text-emerald-400 border-emerald-500/30 hover:bg-emerald-500/20'
@@ -122,7 +122,7 @@ export const AutonomousSettlement: React.FC<AutonomousSettlementProps> = ({
           <button
             onClick={onTriggerSelfMint}
             disabled={isMinting}
-            className="flex items-center gap-2 px-4 py-2 rounded-xl text-xs font-mono font-bold bg-orange-500 hover:bg-orange-400 text-black shadow-md shadow-orange-500/20 transition-all disabled:opacity-50"
+            className="flex items-center justify-center gap-2 px-3 sm:px-4 py-2 rounded-xl text-xs font-mono font-bold bg-orange-500 hover:bg-orange-400 text-black shadow-md shadow-orange-500/20 transition-all disabled:opacity-50 flex-1 sm:flex-initial"
           >
             <RefreshCw className={`w-3.5 h-3.5 ${isMinting ? 'animate-spin' : ''}`} />
             <span>{isMinting ? 'Minting...' : 'Mint 100 Test UCT'}</span>
@@ -170,16 +170,16 @@ export const AutonomousSettlement: React.FC<AutonomousSettlementProps> = ({
       <div className={`rounded-2xl border overflow-hidden shadow-2xl ${
         isLightMode ? 'bg-[#080c14] border-slate-800 text-slate-200' : 'bg-[#080c14] border-slate-800 text-slate-200'
       }`}>
-        <div className="flex items-center justify-between px-4 py-3 border-b border-slate-800 bg-black/60">
-          <div className="flex items-center gap-2">
-            <Terminal className="w-4 h-4 text-orange-500" />
-            <span className="text-xs font-mono font-bold text-orange-400">
+        <div className="flex flex-wrap items-center justify-between gap-2 px-4 py-3 border-b border-slate-800 bg-black/60">
+          <div className="flex items-center gap-2 min-w-0">
+            <Terminal className="w-4 h-4 text-orange-500 shrink-0" />
+            <span className="text-xs font-mono font-bold text-orange-400 truncate">
               spherepay-agent-daemon.log, live event pipeline
             </span>
           </div>
-          <div className="flex items-center gap-2 text-[11px] font-mono text-slate-400">
+          <div className="flex items-center gap-2 text-[11px] font-mono text-slate-400 shrink-0">
             <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
-            <span>AGENT ACTIVE</span>
+            <span>Nostr Relay: wss://relay.unicity.network</span>
           </div>
         </div>
 
