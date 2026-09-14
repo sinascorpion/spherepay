@@ -6,8 +6,11 @@ import { isInIframe, hasExtension } from '../lib/detection';
 import { describeConnectFailure } from '../lib/connectErrors';
 import { supportsGracefulLock } from '../lib/walletProtocol';
 
+import { parseAmount } from '../lib/format';
+
 export const SPHEREPAY_AGENT_ADDRESS = '038aa8b43b8b62032dd21d5fa74632e5bcd52763d75689a70d090bb6e7c8ad0604';
-export const UCT_COIN_ID = '7fc5d3a3c480c8606d25b381ed64e9c79560ec0243628691c978f40226d06c86';
+export const UCT_COIN_ID = 'f581d30f593e4b369d684a4563b5246f07b1d265f7178a2c0a82b81f39c24dc0';
+export const UCT_DECIMALS = 18;
 
 const WALLET_URL = 'https://sphere.unicity.network';
 const SESSION_KEY_POPUP = 'spherepay-connect-popup-session';
@@ -481,9 +484,10 @@ export function useWalletConnect() {
   const payForService = async (amount: number, recipient: string = SPHEREPAY_AGENT_ADDRESS): Promise<boolean> => {
     if (!clientRef.current) return false;
     try {
+      const baseUnits = parseAmount(String(amount), UCT_DECIMALS);
       await clientRef.current.intent(INTENT_ACTIONS.SEND, {
         to: recipient,
-        amount: String(amount),
+        amount: baseUnits,
         coinId: UCT_COIN_ID,
       });
       return true;
@@ -499,9 +503,10 @@ export function useWalletConnect() {
   const mintTestUCT = async (amount: number = 100): Promise<boolean> => {
     if (!clientRef.current) return false;
     try {
+      const baseUnits = parseAmount(String(amount), UCT_DECIMALS);
       await clientRef.current.intent(INTENT_ACTIONS.MINT, {
         coinId: UCT_COIN_ID,
-        amount: String(amount),
+        amount: baseUnits,
       });
       return true;
     } catch (e) {
