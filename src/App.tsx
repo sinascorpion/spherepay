@@ -5,14 +5,24 @@ import { ServiceMarketplace } from './components/ServiceMarketplace';
 import { PaywallGenerator } from './components/PaywallGenerator';
 import { AutonomousSettlement } from './components/AutonomousSettlement';
 import { ProtocolDocs } from './components/ProtocolDocs';
+import { UserPurchases, type PurchasedAccessKey } from './components/UserPurchases';
 import type { AIService } from './utils/servicesData';
 import { CheckCircle2, ShieldAlert, Sparkles, ExternalLink, Zap, Terminal } from 'lucide-react';
 
+const STORAGE_PURCHASES_KEY = 'spherepay_user_purchases_v1';
+
 export function App() {
   const [isLightMode, setIsLightMode] = useState<boolean>(false);
-  const [activeTab, setActiveTab] = useState<'services' | 'paywall' | 'settlement' | 'docs'>('services');
+  const [activeTab, setActiveTab] = useState<'services' | 'paywall' | 'settlement' | 'docs' | 'purchases'>('services');
   const [isProcessing, setIsProcessing] = useState<boolean>(false);
   const [activeServiceId, setActiveServiceId] = useState<string | null>(null);
+  const [purchases, setPurchases] = useState<PurchasedAccessKey[]>(() => {
+    try {
+      const saved = localStorage.getItem(STORAGE_PURCHASES_KEY);
+      if (saved) return JSON.parse(saved);
+    } catch {}
+    return [];
+  });
   const [receiptModal, setReceiptModal] = useState<{
     service: AIService;
     txHash: string;
@@ -40,12 +50,28 @@ export function App() {
     setActiveServiceId(service.id);
 
     try {
-      // Execute payment via Sphere Connect L3 intent
+      // Execute payment via Sphere Connect intent with official UCT contract
       const success = await wallet.payForService(service.pricePerCall, service.providerAddress || SPHEREPAY_AGENT_ADDRESS);
       
       if (success) {
         const mockReceipt = '0x' + Array.from({ length: 32 }, () => Math.floor(Math.random() * 16).toString(16)).join('');
         const generatedKey = `sk_sphere_${service.id.slice(0, 4)}_${Math.random().toString(36).substring(2, 10)}`;
+        
+        // Save persistently to user purchases
+        const newPurchase: PurchasedAccessKey = {
+          id: `purch_${Date.now()}`,
+          service,
+          apiKey: generatedKey,
+          txHash: mockReceipt,
+          purchasedAt: Date.now(),
+        };
+
+        const updated = [newPurchase, ...purchases];
+        setPurchases(updated);
+        try {
+          localStorage.setItem(STORAGE_PURCHASES_KEY, JSON.stringify(updated));
+        } catch {}
+
         setReceiptModal({
           service,
           txHash: mockReceipt,
@@ -59,6 +85,15 @@ export function App() {
     } finally {
       setIsProcessing(false);
       setActiveServiceId(null);
+    }
+  };
+
+  const handleClearPurchases = () => {
+    if (confirm('Clear all saved purchase receipts and access keys?')) {
+      setPurchases([]);
+      try {
+        localStorage.removeItem(STORAGE_PURCHASES_KEY);
+      } catch {}
     }
   };
 
@@ -95,6 +130,7 @@ export function App() {
         onDisconnect={wallet.disconnect}
         activeTab={activeTab}
         setActiveTab={setActiveTab}
+        purchasesCount={purchases.length}
       />
 
       {/* Main Container */}
@@ -129,6 +165,18 @@ export function App() {
 
         {activeTab === 'docs' && (
           <ProtocolDocs isLightMode={isLightMode} />
+        )}
+
+        {activeTab === 'purchases' && (
+          <UserPurchases
+            isLightMode={isLightMode}
+            purchases={purchases}
+            onClearPurchases={handleClearPurchases}
+            onSelectService={(service) => {
+              setActiveTab('services');
+              handlePayForService(service);
+            }}
+          />
         )}
       </main>
 

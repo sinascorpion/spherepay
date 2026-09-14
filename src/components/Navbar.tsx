@@ -10,8 +10,9 @@ interface NavbarProps {
   identity: PublicIdentity | null;
   onConnect: () => void;
   onDisconnect: () => void;
-  activeTab: 'services' | 'paywall' | 'settlement' | 'docs';
-  setActiveTab: (tab: 'services' | 'paywall' | 'settlement' | 'docs') => void;
+  activeTab: 'services' | 'paywall' | 'settlement' | 'docs' | 'purchases';
+  setActiveTab: (tab: 'services' | 'paywall' | 'settlement' | 'docs' | 'purchases') => void;
+  purchasesCount?: number;
 }
 
 export const Navbar: React.FC<NavbarProps> = ({
@@ -24,6 +25,7 @@ export const Navbar: React.FC<NavbarProps> = ({
   onDisconnect,
   activeTab,
   setActiveTab,
+  purchasesCount = 0,
 }) => {
   const shortAddress = identity?.chainPubkey
     ? `${identity.chainPubkey.slice(0, 6)}...${identity.chainPubkey.slice(-4)}`
@@ -100,6 +102,23 @@ export const Navbar: React.FC<NavbarProps> = ({
               }`}
             >
               Protocol Specs
+            </button>
+            <button
+              onClick={() => setActiveTab('purchases')}
+              className={`flex items-center gap-1.5 px-4 py-2 rounded-lg text-sm font-semibold transition-all ${
+                activeTab === 'purchases'
+                  ? 'bg-orange-500 text-black shadow-md shadow-orange-500/20'
+                  : isLightMode ? 'text-slate-600 hover:text-orange-600' : 'text-slate-300 hover:text-orange-400'
+              }`}
+            >
+              <span>My Purchases</span>
+              {purchasesCount > 0 && (
+                <span className={`px-1.5 py-0.2 rounded-full text-[10px] font-bold ${
+                  activeTab === 'purchases' ? 'bg-black text-orange-400' : 'bg-orange-500 text-black'
+                }`}>
+                  {purchasesCount}
+                </span>
+              )}
             </button>
           </nav>
 
@@ -201,6 +220,23 @@ export const Navbar: React.FC<NavbarProps> = ({
             }`}
           >
             Protocol Specs
+          </button>
+          <button
+            onClick={() => setActiveTab('purchases')}
+            className={`flex items-center gap-1 px-3 py-1.5 rounded-lg text-xs font-semibold whitespace-nowrap transition-colors ${
+              activeTab === 'purchases' 
+                ? 'bg-orange-500 text-black shadow-sm' 
+                : isLightMode ? 'text-slate-700 hover:text-orange-600' : 'text-slate-300 hover:text-orange-400'
+            }`}
+          >
+            <span>My Purchases</span>
+            {purchasesCount > 0 && (
+              <span className={`px-1 rounded-full text-[9px] font-bold ${
+                activeTab === 'purchases' ? 'bg-black text-orange-400' : 'bg-orange-500 text-black'
+              }`}>
+                {purchasesCount}
+              </span>
+            )}
           </button>
         </div>
 
