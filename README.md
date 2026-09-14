@@ -76,7 +76,7 @@ SpherePay utilizes the latest Unicity protocol primitives:
 - **`@unicitylabs/sphere-sdk` (v0.16.0)**
   - `ConnectClient` with silent auto-connect and persistent session resumption
   - `PostMessageTransport` and `ExtensionTransport` detection
-  - `INTENT_ACTIONS.SEND` and `INTENT_ACTIONS.MINT`
+  - `INTENT_ACTIONS.SEND` and `INTENT_ACTIONS.MINT` with official testnet2 UCT (`f581d30f593e4b369d684a4563b5246f07b1d265f7178a2c0a82b81f39c24dc0`)
   - `WALLET_EVENTS.LOCKED` / `WALLET_EVENTS.UNLOCKED` Graceful Lock handling (Connect 2.1)
   - Window handle reuse via `POPUP_NAME = 'sphere-wallet'` to prevent memory password eviction
 - **`@unicitylabs/sphere-ui` (v0.1.44)**
