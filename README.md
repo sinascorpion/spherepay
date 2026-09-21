@@ -13,7 +13,7 @@
 <p align="center">
   <a href="https://github.com/sinascorpion/spherepay/actions"><img src="https://img.shields.io/badge/build-passing-brightgreen" alt="Build Status"></a>
   <a href="https://developers.unicity.network"><img src="https://img.shields.io/badge/network-Unicity%20Testnet2-orange" alt="Unicity Testnet2"></a>
-  <a href="https://github.com/unicity-sphere/sphere-sdk"><img src="https://img.shields.io/badge/sdk-%40unicitylabs%2Fsphere--sdk%20v0.16.0-blue" alt="Sphere SDK"></a>
+  <a href="https://github.com/unicity-sphere/sphere-sdk"><img src="https://img.shields.io/badge/sdk-%40unicitylabs%2Fsphere--sdk%20v0.17.4-blue" alt="Sphere SDK"></a>
   <a href="https://sphere.unicity.network"><img src="https://img.shields.io/badge/protocol-Connect%202.1-red" alt="Connect Protocol"></a>
   <a href="LICENSE"><img src="https://img.shields.io/badge/license-MIT-green" alt="License"></a>
 </p>
@@ -73,7 +73,7 @@ In the emerging **Machine Economy**, billions of autonomous AI agents need to di
 
 SpherePay utilizes the latest Unicity protocol primitives:
 
-- **`@unicitylabs/sphere-sdk` (v0.16.0)**
+- **`@unicitylabs/sphere-sdk` (v0.17.4)**
   - `ConnectClient` with silent auto-connect and persistent session resumption
   - `PostMessageTransport` and `ExtensionTransport` detection
   - `INTENT_ACTIONS.SEND` and `INTENT_ACTIONS.MINT` with official testnet2 UCT (`f581d30f593e4b369d684a4563b5246f07b1d265f7178a2c0a82b81f39c24dc0`)
