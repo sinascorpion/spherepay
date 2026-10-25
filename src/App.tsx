@@ -6,6 +6,7 @@ import { PaywallGenerator } from './components/PaywallGenerator';
 import { AutonomousSettlement } from './components/AutonomousSettlement';
 import { ProtocolDocs } from './components/ProtocolDocs';
 import { UserPurchases, type PurchasedAccessKey } from './components/UserPurchases';
+import { OutcomeUnknownBanner } from './components/OutcomeUnknownBanner';
 import type { AIService } from './utils/servicesData';
 import { CheckCircle2, ShieldAlert, Sparkles, ExternalLink, Zap, Terminal } from 'lucide-react';
 
@@ -28,6 +29,7 @@ export function App() {
     txHash: string;
     apiKey: string;
   } | null>(null);
+  const [outcomeUnknownError, setOutcomeUnknownError] = useState<string | null>(null);
 
   const wallet = useWalletConnect();
 
@@ -41,6 +43,11 @@ export function App() {
   };
 
   const handlePayForService = async (service: AIService) => {
+    if (outcomeUnknownError) {
+      alert('Action locked: Please verify your wallet before retrying.');
+      return;
+    }
+
     if (!wallet.isConnected) {
       await wallet.connect();
       return;
@@ -51,9 +58,9 @@ export function App() {
 
     try {
       // Execute payment via Sphere Connect intent with official UCT contract
-      const success = await wallet.payForService(service.pricePerCall, service.providerAddress || SPHEREPAY_AGENT_ADDRESS);
+      const result = await wallet.payForService(service.pricePerCall, service.providerAddress || SPHEREPAY_AGENT_ADDRESS);
       
-      if (success) {
+      if (result.success) {
         const mockReceipt = '0x' + Array.from({ length: 32 }, () => Math.floor(Math.random() * 16).toString(16)).join('');
         const generatedKey = `sk_sphere_${service.id.slice(0, 4)}_${Math.random().toString(36).substring(2, 10)}`;
         
@@ -77,8 +84,11 @@ export function App() {
           txHash: mockReceipt,
           apiKey: generatedKey,
         });
+      } else if (result.outcomeUnknown) {
+        // Enforce Acceptance Criterion: Never retry an intent whose outcome is unknown
+        setOutcomeUnknownError(result.error || 'The wallet accepted the payment intent but the settlement answer was lost.');
       } else {
-        alert('Payment was cancelled or rejected by wallet.');
+        alert(result.error || 'Payment was cancelled or rejected by wallet.');
       }
     } catch (e: any) {
       alert(e?.message || 'Transaction error occurred.');
@@ -131,10 +141,21 @@ export function App() {
         activeTab={activeTab}
         setActiveTab={setActiveTab}
         purchasesCount={purchases.length}
+        currentNetwork={wallet.network}
+        onSelectNetwork={wallet.selectNetwork}
+        networkLocked={wallet.networkLocked}
       />
 
       {/* Main Container */}
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12">
+        {/* Outcome Unknown Banner */}
+        {outcomeUnknownError && (
+          <OutcomeUnknownBanner
+            message={outcomeUnknownError}
+            onAcknowledge={() => setOutcomeUnknownError(null)}
+            isLightMode={isLightMode}
+          />
+        )}
         {activeTab === 'services' && (
           <ServiceMarketplace
             isLightMode={isLightMode}

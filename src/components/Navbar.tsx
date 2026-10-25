@@ -1,6 +1,7 @@
 import React from 'react';
-import { Sun, Moon, Wallet, LogOut, ArrowRight, CheckCircle2, ShieldCheck, Terminal, ExternalLink, Cpu } from 'lucide-react';
-import type { PublicIdentity } from '@unicitylabs/sphere-sdk/connect';
+import { Sun, Moon, Wallet, LogOut } from 'lucide-react';
+import type { PublicIdentity, NetworkInfo } from '@unicitylabs/sphere-sdk/connect';
+import { NetworkPicker } from './NetworkPicker';
 
 interface NavbarProps {
   isLightMode: boolean;
@@ -13,6 +14,9 @@ interface NavbarProps {
   activeTab: 'services' | 'paywall' | 'settlement' | 'docs' | 'purchases';
   setActiveTab: (tab: 'services' | 'paywall' | 'settlement' | 'docs' | 'purchases') => void;
   purchasesCount?: number;
+  currentNetwork?: NetworkInfo;
+  onSelectNetwork?: (network: NetworkInfo) => void;
+  networkLocked?: boolean;
 }
 
 export const Navbar: React.FC<NavbarProps> = ({
@@ -26,6 +30,9 @@ export const Navbar: React.FC<NavbarProps> = ({
   activeTab,
   setActiveTab,
   purchasesCount = 0,
+  currentNetwork,
+  onSelectNetwork,
+  networkLocked = false,
 }) => {
   const shortAddress = identity?.chainPubkey
     ? `${identity.chainPubkey.slice(0, 6)}...${identity.chainPubkey.slice(-4)}`
@@ -123,7 +130,16 @@ export const Navbar: React.FC<NavbarProps> = ({
           </nav>
 
           {/* Actions & Wallet */}
-          <div className="flex items-center gap-3">
+          <div className="flex items-center gap-2 sm:gap-3">
+            {/* Network Selector */}
+            {currentNetwork && onSelectNetwork && (
+              <NetworkPicker
+                currentNetwork={currentNetwork}
+                onSelectNetwork={onSelectNetwork}
+                disabled={networkLocked}
+                isLightMode={isLightMode}
+              />
+            )}
             
             {/* Light / Dark Orange Toggle */}
             <button

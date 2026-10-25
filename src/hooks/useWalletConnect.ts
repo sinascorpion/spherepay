@@ -1,10 +1,11 @@
 import { useState, useRef, useCallback, useEffect } from 'react';
-import { ConnectClient, HOST_READY_TYPE, HOST_READY_TIMEOUT, WALLET_EVENTS, SPHERE_NETWORKS, INTENT_ACTIONS } from '@unicitylabs/sphere-sdk/connect';
+import { ConnectClient, HOST_READY_TYPE, HOST_READY_TIMEOUT, WALLET_EVENTS, INTENT_ACTIONS } from '@unicitylabs/sphere-sdk/connect';
 import { PostMessageTransport, ExtensionTransport } from '@unicitylabs/sphere-sdk/connect/browser';
-import type { ConnectTransport, PublicIdentity } from '@unicitylabs/sphere-sdk/connect';
+import type { ConnectTransport, PublicIdentity, NetworkInfo } from '@unicitylabs/sphere-sdk/connect';
 import { isInIframe, hasExtension } from '../lib/detection';
 import { describeConnectFailure } from '../lib/connectErrors';
 import { supportsGracefulLock } from '../lib/walletProtocol';
+import { envNetwork, readStoredNetwork, storeNetwork } from '../lib/networks';
 
 import { parseAmount } from '../lib/format';
 
@@ -56,9 +57,12 @@ export interface WalletConnectState {
   walletChanged: boolean;
   unlockEpoch: number;
   walletProtocol: string | null;
+  sessionNetwork: NetworkInfo | null;
   identity: PublicIdentity | null;
   error: string | null;
 }
+
+const DEFAULT_NETWORK: NetworkInfo = envNetwork(import.meta.env.VITE_SPHERE_NETWORK);
 
 const DISCONNECTED: WalletConnectState = {
   isConnected: false,
@@ -67,6 +71,7 @@ const DISCONNECTED: WalletConnectState = {
   walletChanged: false,
   unlockEpoch: 0,
   walletProtocol: null,
+  sessionNetwork: null,
   identity: null,
   error: null,
 };
@@ -75,6 +80,9 @@ export function useWalletConnect() {
   const willSilentCheck = typeof window !== 'undefined' && (isInIframe() || hasExtension() || !!sessionStorage.getItem(SESSION_KEY_POPUP));
   const [isAutoConnecting, setIsAutoConnecting] = useState(willSilentCheck);
   const [state, setState] = useState<WalletConnectState>(DISCONNECTED);
+
+  const [network, setNetwork] = useState<NetworkInfo>(() => readStoredNetwork() ?? DEFAULT_NETWORK);
+  const networkRef = useRef(network);
 
   const clientRef = useRef<ConnectClient | null>(null);
   const transportRef = useRef<ConnectTransport | null>(null);
@@ -94,11 +102,11 @@ export function useWalletConnect() {
   const attemptInFlightRef = useRef(false);
 
   const makeClient = useCallback(
-    (transport: ConnectTransport, extra: { resumeSessionId?: string; silent?: boolean } = {}): ConnectClient =>
+    (transport: ConnectTransport, declared: NetworkInfo, extra: { resumeSessionId?: string; silent?: boolean } = {}): ConnectClient =>
       new ConnectClient({
         transport,
         dapp: DAPP_META,
-        network: SPHERE_NETWORKS.testnet2,
+        network: declared,
         ...extra,
       }),
     [],
@@ -106,22 +114,37 @@ export function useWalletConnect() {
 
   const handshake = useCallback(
     async (transport: ConnectTransport, extra: { resumeSessionId?: string; silent?: boolean } = {}) => {
-      const client = makeClient(transport, extra);
+      const declared = networkRef.current;
+      const client = makeClient(transport, declared, extra);
       clientRef.current = client;
       const result = await client.connect();
       if (popupMode.current && result.sessionId) {
         sessionStorage.setItem(SESSION_KEY_POPUP, result.sessionId);
       }
+      networkRef.current = declared;
+      setNetwork(declared);
       setState({
         ...DISCONNECTED,
         isConnected: true,
         isWalletLocked: result.locked === true,
         identity: result.identity,
         walletProtocol: client.walletProtocol,
+        sessionNetwork: client.walletNetwork ?? declared,
       });
       return result;
     },
     [makeClient],
+  );
+
+  const networkLocked = state.isConnected || state.isConnecting || isAutoConnecting;
+  const selectNetwork = useCallback(
+    (next: NetworkInfo) => {
+      if (networkLocked) return;
+      networkRef.current = next;
+      setNetwork(next);
+      storeNetwork(next);
+    },
+    [networkLocked],
   );
 
   const rehandshaking = useRef(false);
@@ -481,8 +504,8 @@ export function useWalletConnect() {
   /**
    * Pay for an AI Service / API Endpoint via Unicity Payment Intent
    */
-  const payForService = async (amount: number, recipient: string = SPHEREPAY_AGENT_ADDRESS): Promise<boolean> => {
-    if (!clientRef.current) return false;
+  const payForService = async (amount: number, recipient: string = SPHEREPAY_AGENT_ADDRESS): Promise<{ success: boolean; outcomeUnknown?: boolean; error?: string }> => {
+    if (!clientRef.current) return { success: false, error: 'Wallet not connected' };
     try {
       const baseUnits = parseAmount(String(amount), UCT_DECIMALS);
       await clientRef.current.intent(INTENT_ACTIONS.SEND, {
@@ -490,10 +513,15 @@ export function useWalletConnect() {
         amount: baseUnits,
         coinId: UCT_COIN_ID,
       });
-      return true;
-    } catch (e) {
+      return { success: true };
+    } catch (e: any) {
       console.error('SpherePay: Payment intent failed', e);
-      return false;
+      const isUnknown = e?.code === 4201 || (typeof e?.message === 'string' && e.message.includes('outcome unknown'));
+      return {
+        success: false,
+        outcomeUnknown: isUnknown,
+        error: e?.message || 'Payment failed',
+      };
     }
   };
 
@@ -517,6 +545,9 @@ export function useWalletConnect() {
 
   return {
     ...state,
+    network,
+    selectNetwork,
+    networkLocked,
     isAutoConnecting,
     connect,
     connectViaExtension,
